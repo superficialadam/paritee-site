@@ -1,0 +1,194 @@
+{
+  "name": "Paritee Design System D",
+  "version": "1.0.0-d",
+  "description": "Sophisticated hybrid design system combining classical minimal restraint with modern bold foundation",
+  "philosophy": {
+    "approach": "Classical minimal refinement on modern bold foundation",
+    "characteristics": [
+      "Sophisticated dark mode with refined gray scales",
+      "Brand blues as primary color foundation", 
+      "Generous spacing with modern proportions",
+      "Elegant typography without extreme weights",
+      "Subtle gradients and refined visual hierarchy",
+      "Professional glassmorphism and backdrop effects"
+    ],
+    "avoid": [
+      "Rainbow gradients on individual elements",
+      "Extreme font weights and dramatic scaling", 
+      "Overwhelming animations and effects",
+      "Poor contrast in dark mode contexts",
+      "Inconsistent spacing and alignment",
+      "Excessive visual noise and complexity"
+    ]
+  },
+  "colors": {
+    "brand": {
+      "blue-600": "#2563eb",
+      "blue-500": "#3b82f6", 
+      "blue-400": "#60a5fa"
+    },
+    "neutrals": {
+      "white": "#ffffff",
+      "slate-200": "#e2e8f0",
+      "slate-300": "#cbd5e1",
+      "slate-400": "#94a3b8",
+      "slate-500": "#64748b",
+      "slate-600": "#475569",
+      "slate-700": "#334155",
+      "slate-800": "#1e293b",
+      "slate-900": "#0f172a",
+      "slate-950": "#020617"
+    },
+    "accents": {
+      "emerald-600": "#059669",
+      "amber-600": "#d97706",
+      "red-600": "#dc2626"
+    },
+    "usage": {
+      "backgrounds": {
+        "primary": "bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950",
+        "card": "bg-slate-800/40",
+        "surface": "bg-slate-900/60"
+      },
+      "text": {
+        "primary": "text-white",
+        "secondary": "text-slate-300", 
+        "tertiary": "text-slate-400",
+        "muted": "text-slate-500"
+      },
+      "borders": {
+        "default": "border-slate-700/50",
+        "hover": "border-slate-600/60",
+        "accent": "border-blue-600/30"
+      }
+    }
+  },
+  "typography": {
+    "scale": {
+      "text-xs": "0.75rem",
+      "text-sm": "0.875rem", 
+      "text-base": "1rem",
+      "text-lg": "1.125rem",
+      "text-xl": "1.25rem",
+      "text-2xl": "1.5rem",
+      "text-3xl": "1.875rem",
+      "text-4xl": "2.25rem"
+    },
+    "weights": {
+      "font-medium": "500",
+      "font-semibold": "600"
+    },
+    "hierarchy": {
+      "h1": "text-4xl font-semibold text-white leading-tight",
+      "h2": "text-3xl font-semibold text-white leading-tight", 
+      "h3": "text-2xl font-medium text-white leading-tight",
+      "h4": "text-xl font-medium text-white leading-relaxed",
+      "body-large": "text-lg text-slate-200 leading-relaxed",
+      "body": "text-base text-slate-300 leading-relaxed",
+      "body-small": "text-sm text-slate-400 leading-relaxed",
+      "caption": "text-xs text-slate-500 leading-relaxed"
+    }
+  },
+  "spacing": {
+    "sections": "space-y-32",
+    "components": "space-y-16", 
+    "content": "space-y-8",
+    "elements": "space-y-4",
+    "container": "px-8 py-20",
+    "card": "p-6 pb-4",
+    "button": "px-6 py-3"
+  },
+  "components": {
+    "cards": {
+      "base": "bg-slate-800/40 border border-slate-700/50 backdrop-blur-sm shadow-lg rounded-none",
+      "hover": "group hover:shadow-xl hover:shadow-slate-900/50 transition-all duration-300 hover:border-slate-600/60",
+      "accent": "bg-blue-600/10 border border-blue-600/30 backdrop-blur-sm rounded-none",
+      "success": "border border-emerald-600/30 bg-emerald-600/10 backdrop-blur-sm rounded-none",
+      "warning": "border border-red-600/30 bg-red-600/10 backdrop-blur-sm rounded-none"
+    },
+    "buttons": {
+      "primary": "bg-transparent border border-blue-600 text-blue-400 hover:bg-blue-600/10 hover:border-blue-500 rounded-full transition-all duration-300",
+      "secondary": "bg-transparent border border-slate-600 text-slate-300 hover:bg-slate-600/10 hover:border-slate-500 rounded-full transition-all duration-300", 
+      "success": "bg-transparent border border-emerald-600/60 text-emerald-400 hover:bg-emerald-600/10 hover:border-emerald-600/80 rounded-full transition-all duration-300",
+      "warning": "bg-transparent border border-amber-600/60 text-amber-400 hover:bg-amber-600/10 hover:border-amber-600/80 rounded-full transition-all duration-300",
+      "sizes": {
+        "sm": "px-4 py-2 text-sm",
+        "default": "px-5 py-2.5", 
+        "lg": "px-6 py-3"
+      }
+    },
+    "badges": {
+      "default": "bg-slate-700 text-slate-200 border-slate-600 hover:bg-slate-600",
+      "secondary": "bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700",
+      "outline": "bg-transparent border border-slate-600 text-slate-300 hover:bg-slate-800",
+      "primary": "bg-blue-600/20 text-blue-400 border border-blue-600/40 hover:bg-blue-600/30",
+      "success": "bg-emerald-600/20 text-emerald-400 border border-emerald-600/40 hover:bg-emerald-600/30",
+      "warning": "bg-amber-600/20 text-amber-400 border border-amber-600/40 hover:bg-amber-600/30",
+      "danger": "bg-red-600/20 text-red-400 border border-red-600/40 hover:bg-red-600/30"
+    }
+  },
+  "effects": {
+    "shadows": {
+      "default": "shadow-lg",
+      "hover": "shadow-xl shadow-slate-900/50",
+      "glow": "shadow-lg shadow-blue-600/20 hover:shadow-xl hover:shadow-blue-600/30"
+    },
+    "blur": {
+      "backdrop": "backdrop-blur-sm",
+      "header": "backdrop-blur-xl"
+    },
+    "gradients": {
+      "background": "bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950",
+      "text": "bg-gradient-to-r from-white via-slate-100 to-blue-200 bg-clip-text text-transparent",
+      "subtle": "bg-gradient-to-r from-blue-600 to-blue-700"
+    }
+  },
+  "layout": {
+    "container": "max-w-6xl mx-auto",
+    "grid": {
+      "default": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8",
+      "cards": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8",
+      "two-col": "grid grid-cols-1 lg:grid-cols-2 gap-12"
+    },
+    "header": "border-b border-slate-800 bg-slate-900/60 backdrop-blur-xl sticky top-0 z-50"
+  },
+  "animations": {
+    "transition": "transition-all duration-300",
+    "hover-scale": "hover:scale-105",
+    "hover-lift": "hover:-translate-y-1"
+  },
+  "rules": {
+    "mandatory": [
+      "All cards must use rounded-none (no rounding)",
+      "All buttons must be fully rounded (rounded-full) and outlined (transparent with borders)",
+      "Never use ALL CAPS in headlines",
+      "Always preserve brand blue colors (#2563eb, #3b82f6, #60a5fa)",
+      "Use current font family - no font changes allowed"
+    ],
+    "typography": [
+      "Use sentence case for all headlines and buttons",
+      "Maximum font weight is font-semibold (600)", 
+      "Maintain consistent line-height (leading-tight for headers, leading-relaxed for body)",
+      "Use refined hierarchy without extreme scaling"
+    ],
+    "colors": [
+      "Brand blues are primary colors - use prominently",
+      "Use sophisticated gray scale (slate-200 to slate-950)",
+      "Accent colors at 20% opacity for subtle highlights",
+      "High contrast text for accessibility in dark mode"
+    ],
+    "spacing": [
+      "Use generous spacing between sections (space-y-32)",
+      "Consistent padding with modern proportions",
+      "Maintain visual breathing room",
+      "Follow 8px grid system"
+    ]
+  },
+  "examples": {
+    "card_component": "<Card className=\"bg-slate-800/40 border border-slate-700/50 backdrop-blur-sm shadow-lg rounded-none\">",
+    "button_primary": "<Button className=\"bg-transparent border border-blue-600 text-blue-400 hover:bg-blue-600/10 hover:border-blue-500 rounded-full px-6 py-3 transition-all duration-300\">",
+    "heading": "<h2 className=\"text-3xl font-semibold text-white mb-4\">",
+    "body_text": "<p className=\"text-slate-400 text-lg max-w-2xl leading-relaxed\">",
+    "badge": "<Badge className=\"bg-blue-600/20 text-blue-400 border border-blue-600/40 hover:bg-blue-600/30\">"
+  }
+}
