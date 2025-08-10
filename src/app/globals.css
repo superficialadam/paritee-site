@@ -218,6 +218,12 @@ h3 {
   animation: shimmer 3s infinite ease-in-out;
 }
 
+.shimmer-text-dark {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+  background-size: 1000px 100%;
+  animation: shimmer 3s infinite ease-in-out;
+}
+
 .minimal-hover {
   transition: transform 0.2s ease-out;
 }
@@ -255,6 +261,19 @@ h3 {
     }
   }
 }
+
+/* Enhanced snap scroll */
+.snap-scroll-x {
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.snap-scroll-x > * {
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
 
 @layer base {
   * {
