@@ -48,7 +48,6 @@ export default function V3BPage() {
                 ))}
               </div>
             </SectionV3B>
-          </div>
 
           <SectionV3B 
             id="geographies"
