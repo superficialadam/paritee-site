@@ -83,6 +83,39 @@ class DotMatrixDisplay {
   drawShockwave(centerCol: number, centerRow: number, waveRadius: number, waveThickness: number, intensity: number) {
     this.drawRing(centerCol, centerRow, waveRadius - waveThickness, waveRadius + waveThickness, intensity)
   }
+
+  // Draw individual particle with luminance
+  drawParticle(col: number, row: number, luminance: number) {
+    const currentLuminance = this.getPixel(col, row)
+    this.setPixel(col, row, Math.max(currentLuminance, luminance))
+  }
+
+  // Draw fuzzy particle circle with smooth falloff (uses floating point coordinates)
+  drawFuzzyParticle(x: number, y: number, radius: number, luminance: number) {
+    const radiusSquared = radius * radius
+    const minCol = Math.floor(x - radius - 1)
+    const maxCol = Math.ceil(x + radius + 1)
+    const minRow = Math.floor(y - radius - 1) 
+    const maxRow = Math.ceil(y + radius + 1)
+    
+    for (let col = minCol; col <= maxCol; col++) {
+      for (let row = minRow; row <= maxRow; row++) {
+        if (col >= 0 && col < this.cols && row >= 0 && row < this.rows) {
+          const distSquared = (col - x) ** 2 + (row - y) ** 2
+          
+          if (distSquared <= radiusSquared) {
+            // Smooth falloff from center to edge
+            const dist = Math.sqrt(distSquared)
+            const falloff = Math.max(0, 1 - (dist / radius))
+            const effectiveLuminance = luminance * falloff
+            
+            const currentLuminance = this.getPixel(col, row)
+            this.setPixel(col, row, Math.max(currentLuminance, effectiveLuminance))
+          }
+        }
+      }
+    }
+  }
   
   // Fade entire display towards base luminance
   fadeDisplay(fadeAmount = 0.02, baseLuminance = 0) {
@@ -108,12 +141,21 @@ class DotMatrixDisplay {
         const y = row * this.dotSpacing + this.dotSpacing / 2
         const luminance = this.luminanceGrid[col][row]
         
+        // Apply base opacity to non-animated dots (15% for subtle background)
+        // But allow full brightness for animated dots
+        const baseOpacity = luminance > 0.01 ? 255 : 38 // 38/255 = ~15%
+        
         // Interpolate color between dark blue and white
         const r = this.p.lerp(this.darkBlue[0], this.white[0], luminance)
         const g = this.p.lerp(this.darkBlue[1], this.white[1], luminance)
         const b = this.p.lerp(this.darkBlue[2], this.white[2], luminance)
         
-        this.p.fill(r, g, b)
+        // Use alpha channel for base dots, full opacity for animated ones
+        if (luminance > 0.01) {
+          this.p.fill(r, g, b, 255) // Full opacity for animated dots
+        } else {
+          this.p.fill(r, g, b, baseOpacity) // Low opacity for background
+        }
         
         // Scale size based on luminance (0 = base size, 1 = 2.5x base size)
         const size = this.baseDotSize + (luminance * this.baseDotSize * 1.5)
@@ -152,12 +194,17 @@ export default function DotMatrixCanvas() {
         let display: DotMatrixDisplay
         let scrollY = 0
         let lastScrollY = 0
+        let particles: Array<{
+          x: number, y: number, 
+          vx: number, vy: number, 
+          life: number, maxLife: number,
+          drag: number
+        }> = []
         let shockwaveActive = false
-        let shockwaveRadius = 0
         let shockwaveStartTime = 0
-        const SHOCKWAVE_SPEED = 0.8 // pixels per frame
-        const SHOCKWAVE_THICKNESS = 3
-        const SHOCKWAVE_DURATION = 2000 // ms
+        const SHOCKWAVE_DURATION = 3000 // ms - longer for particle system
+        const RECTANGLE_WIDTH = 240 // Match the logo rectangle width in pixels
+        const RECTANGLE_HEIGHT = 104 // Match the logo rectangle height in pixels
 
         p.setup = () => {
           const canvas = p.createCanvas(window.innerWidth, window.innerHeight)
@@ -168,8 +215,48 @@ export default function DotMatrixCanvas() {
           // Listen for logo animation trigger
           window.addEventListener('logoRectangleFullWidth', () => {
             shockwaveActive = true
-            shockwaveRadius = 0
             shockwaveStartTime = Date.now()
+            particles = [] // Clear existing particles
+            
+            // Create particles starting from rectangle edges (convert to grid coordinates)
+            const centerX = display.centerX
+            const centerY = display.centerY
+            const rectWidthInGrid = (RECTANGLE_WIDTH / display.dotSpacing) / 2
+            const rectHeightInGrid = (RECTANGLE_HEIGHT / display.dotSpacing) / 2
+            
+            const particleCount = 80 // More particles for better coverage
+            
+            for (let i = 0; i < particleCount; i++) {
+              // Create particles around the rectangle perimeter
+              const angle = (i / particleCount) * Math.PI * 2
+              const isOnVerticalEdge = Math.abs(Math.cos(angle)) > Math.abs(Math.sin(angle))
+              
+              let startX, startY
+              if (isOnVerticalEdge) {
+                // Start from left/right edges
+                startX = centerX + (Math.cos(angle) > 0 ? rectWidthInGrid : -rectWidthInGrid)
+                startY = centerY + Math.sin(angle) * rectHeightInGrid
+              } else {
+                // Start from top/bottom edges
+                startX = centerX + Math.cos(angle) * rectWidthInGrid
+                startY = centerY + (Math.sin(angle) > 0 ? rectHeightInGrid : -rectHeightInGrid)
+              }
+              
+              // Velocity based on rectangle "push" direction with randomization
+              const baseSpeed = 0.3 + Math.random() * 0.7 // 0.3 to 1.0
+              const velocityX = Math.cos(angle) * baseSpeed
+              const velocityY = Math.sin(angle) * baseSpeed
+              
+              particles.push({
+                x: startX,
+                y: startY,
+                vx: velocityX,
+                vy: velocityY,
+                life: 1.0, // Start at full life
+                maxLife: 1.0,
+                drag: 0.96 + Math.random() * 0.03 // 0.96 to 0.99 - different drag per particle
+              })
+            }
           })
           
           p.frameRate(60)
@@ -195,35 +282,52 @@ export default function DotMatrixCanvas() {
             }
           }
           
-          // Handle shockwave animation
-          if (shockwaveActive) {
+          // Handle particle-based shockwave animation
+          if (shockwaveActive && particles.length > 0) {
             const elapsed = Date.now() - shockwaveStartTime
-            const progress = elapsed / SHOCKWAVE_DURATION
+            const globalProgress = elapsed / SHOCKWAVE_DURATION
             
-            if (progress < 1) {
-              // Calculate wave intensity (fade out over time)
-              const intensity = Math.max(0, 1 - progress) * 0.8
-              
-              // Draw expanding shockwave from center
-              display.drawShockwave(
-                display.centerX, 
-                display.centerY, 
-                shockwaveRadius, 
-                SHOCKWAVE_THICKNESS, 
-                intensity
-              )
-              
-              shockwaveRadius += SHOCKWAVE_SPEED
-              
-              // Add some random sparkles around the wave
-              if (Math.random() < 0.3) {
-                const angle = Math.random() * Math.PI * 2
-                const sparkleCol = display.centerX + Math.cos(angle) * (shockwaveRadius + Math.random() * 5 - 2.5)
-                const sparkleRow = display.centerY + Math.sin(angle) * (shockwaveRadius + Math.random() * 5 - 2.5)
-                display.setPixel(Math.floor(sparkleCol), Math.floor(sparkleRow), Math.random() * 0.6)
+            if (globalProgress < 1) {
+              // Update and render particles
+              for (let i = particles.length - 1; i >= 0; i--) {
+                const particle = particles[i]
+                
+                // Update physics
+                particle.vx *= particle.drag
+                particle.vy *= particle.drag
+                particle.x += particle.vx
+                particle.y += particle.vy
+                
+                // Update lifetime - particles fade out over time
+                const lifetimeDecay = 0.008 + Math.random() * 0.004 // 0.008 to 0.012 per frame
+                particle.life -= lifetimeDecay
+                
+                // Remove dead particles
+                if (particle.life <= 0) {
+                  particles.splice(i, 1)
+                  continue
+                }
+                
+                // Calculate luminance - start at full white and fade out
+                const velocityMagnitude = Math.sqrt(particle.vx * particle.vx + particle.vy * particle.vy)
+                
+                // Start at full white (1.0) and fade out over lifetime
+                const lifeFade = particle.life // Linear fade from 1.0 to 0.0
+                const velocityBoost = Math.min(1.2, 0.8 + velocityMagnitude * 2) // Slight velocity boost
+                
+                const finalLuminance = Math.max(0, Math.min(1, lifeFade * velocityBoost))
+                
+                // Calculate particle radius based on velocity and life (bigger when faster/younger)
+                const baseRadius = 1.2 + velocityMagnitude * 0.8 // 1.2 to 2.0 radius
+                const lifeRadius = 0.5 + particle.life * 0.7 // Shrink as it dies
+                const particleRadius = baseRadius * lifeRadius
+                
+                // Draw fuzzy particle at floating point position for smooth movement
+                display.drawFuzzyParticle(particle.x, particle.y, particleRadius, finalLuminance)
               }
             } else {
               shockwaveActive = false
+              particles = []
             }
           }
           
@@ -268,8 +372,7 @@ export default function DotMatrixCanvas() {
         width: '100vw',
         height: '100vh',
         zIndex: 1,
-        pointerEvents: 'none',
-        opacity: 0.15
+        pointerEvents: 'none'
       }}
     />
   )

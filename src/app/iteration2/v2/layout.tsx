@@ -88,7 +88,6 @@ export default function Iteration2V2Layout({
           height: 100vh !important;
           z-index: 1 !important;
           pointer-events: none !important;
-          opacity: 0.15 !important;
         }
 
         /* Content Layer */
