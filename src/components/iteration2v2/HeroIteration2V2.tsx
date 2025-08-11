@@ -71,7 +71,11 @@ export default function HeroIteration2V2() {
       .to(whiteSquareRef.current, {
         width: 240,
         duration: ANIMATION_CONFIG.squareScaleHorizontal.duration,
-        ease: ANIMATION_CONFIG.squareScaleHorizontal.ease
+        ease: ANIMATION_CONFIG.squareScaleHorizontal.ease,
+        onComplete: () => {
+          // Emit custom event when rectangle reaches full width for dot matrix sync
+          window.dispatchEvent(new CustomEvent('logoRectangleFullWidth'))
+        }
       })
       // 3. White square fades out, logo fades in simultaneously
       .to(whiteSquareRef.current, {
