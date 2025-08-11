@@ -198,6 +198,16 @@ export default function DotMatrixCanvas() {
         let shockwaveActive = false
         let shockwaveStartTime = 0
         let currentSection = 'default'
+        let lastSection = 'default'
+        let worldMapDots: Array<{
+          x: number, y: number, 
+          targetLuminance: number, 
+          currentLuminance: number,
+          flickerDelay: number,
+          isOffice: boolean
+        }> = []
+        let isFillingIn = false
+        let isFadingOut = false
         const SHOCKWAVE_DURATION = 3000 // ms - longer for particle system
         const RECTANGLE_WIDTH = 240 // Match the logo rectangle width in pixels
         const RECTANGLE_HEIGHT = 104 // Match the logo rectangle height in pixels
@@ -218,53 +228,115 @@ export default function DotMatrixCanvas() {
           { name: 'Dubai', x: 0.62, y: 0.51 },
         ]
         
-        // Simplified static continent outlines (normalized coordinates)
-        const continentOutlines = [
-          // North America - West Coast
-          { x: 0.08, y: 0.25 }, { x: 0.09, y: 0.28 }, { x: 0.10, y: 0.32 }, { x: 0.11, y: 0.35 },
-          { x: 0.12, y: 0.38 }, { x: 0.13, y: 0.42 }, { x: 0.14, y: 0.45 },
+        // Generate filled continents with proper contours
+        function generateFilledContinents() {
+          const dots: {x: number, y: number}[] = []
           
-          // North America - Main Body
-          { x: 0.15, y: 0.22 }, { x: 0.18, y: 0.20 }, { x: 0.22, y: 0.18 }, { x: 0.26, y: 0.17 },
-          { x: 0.30, y: 0.19 }, { x: 0.33, y: 0.22 }, { x: 0.35, y: 0.25 }, { x: 0.32, y: 0.28 },
-          { x: 0.29, y: 0.32 }, { x: 0.26, y: 0.35 }, { x: 0.23, y: 0.38 }, { x: 0.20, y: 0.42 },
-          { x: 0.17, y: 0.45 }, { x: 0.15, y: 0.48 },
+          // Helper function to check if point is inside continent shape
+          function isInsideNorthAmerica(x: number, y: number): boolean {
+            // Rough North America shape with curves
+            if (x < 0.08 || x > 0.38 || y < 0.15 || y > 0.52) return false
+            
+            // Western coast curve
+            if (x <= 0.14) {
+              const coastCurve = 0.24 + (0.23 * Math.sin((x - 0.08) / 0.06 * Math.PI))
+              return y >= coastCurve && y <= coastCurve + 0.23
+            }
+            
+            // Main body with northern curve and southern indent
+            if (x <= 0.32) {
+              const northCurve = 0.17 + 0.05 * Math.sin((x - 0.15) / 0.17 * Math.PI)
+              const southCurve = 0.48 - 0.08 * Math.sin((x - 0.15) / 0.17 * Math.PI)
+              return y >= northCurve && y <= southCurve
+            }
+            
+            // Eastern coast
+            const eastTop = 0.15 + 0.12 * (x - 0.32) / 0.06
+            const eastBottom = 0.42 - 0.12 * (x - 0.32) / 0.06
+            return y >= eastTop && y <= eastBottom
+          }
           
-          // North America - East Coast  
-          { x: 0.28, y: 0.15 }, { x: 0.32, y: 0.16 }, { x: 0.35, y: 0.18 }, { x: 0.37, y: 0.22 },
-          { x: 0.38, y: 0.26 }, { x: 0.36, y: 0.30 }, { x: 0.35, y: 0.34 }, { x: 0.33, y: 0.38 },
+          function isInsideSouthAmerica(x: number, y: number): boolean {
+            if (x < 0.25 || x > 0.35 || y < 0.50 || y > 0.78) return false
+            
+            // Narrowing shape from north to south
+            const width = 0.10 - 0.03 * (y - 0.50) / 0.28
+            const center = 0.30 + 0.02 * Math.sin((y - 0.50) / 0.28 * Math.PI)
+            return Math.abs(x - center) <= width / 2
+          }
           
-          // South America
-          { x: 0.28, y: 0.50 }, { x: 0.30, y: 0.54 }, { x: 0.32, y: 0.58 }, { x: 0.33, y: 0.62 },
-          { x: 0.34, y: 0.66 }, { x: 0.33, y: 0.70 }, { x: 0.31, y: 0.74 }, { x: 0.29, y: 0.72 },
-          { x: 0.27, y: 0.68 }, { x: 0.26, y: 0.64 }, { x: 0.25, y: 0.60 }, { x: 0.26, y: 0.56 },
+          function isInsideEurope(x: number, y: number): boolean {
+            if (x < 0.46 || x > 0.56 || y < 0.18 || y > 0.36) return false
+            
+            // Irregular Europe shape
+            const northCurve = 0.20 + 0.04 * Math.sin((x - 0.46) / 0.10 * Math.PI)
+            const southCurve = 0.34 - 0.06 * Math.sin((x - 0.46) / 0.10 * Math.PI * 0.7)
+            return y >= northCurve && y <= southCurve
+          }
           
-          // Europe  
-          { x: 0.47, y: 0.22 }, { x: 0.49, y: 0.20 }, { x: 0.52, y: 0.19 }, { x: 0.55, y: 0.21 },
-          { x: 0.54, y: 0.25 }, { x: 0.52, y: 0.28 }, { x: 0.50, y: 0.32 }, { x: 0.48, y: 0.35 },
-          { x: 0.47, y: 0.32 }, { x: 0.46, y: 0.28 }, { x: 0.46, y: 0.25 },
+          function isInsideAfrica(x: number, y: number): boolean {
+            if (x < 0.47 || x > 0.57 || y < 0.36 || y > 0.70) return false
+            
+            // Africa bulge shape
+            let width: number
+            if (y < 0.50) {
+              // Northern part - wider
+              width = 0.09 - 0.02 * (y - 0.36) / 0.14
+            } else {
+              // Southern part - narrowing
+              width = 0.07 - 0.02 * (y - 0.50) / 0.20
+            }
+            
+            const center = 0.52 + 0.01 * Math.sin((y - 0.36) / 0.34 * Math.PI)
+            return Math.abs(x - center) <= width / 2
+          }
           
-          // Africa
-          { x: 0.50, y: 0.38 }, { x: 0.52, y: 0.42 }, { x: 0.54, y: 0.46 }, { x: 0.55, y: 0.50 },
-          { x: 0.56, y: 0.54 }, { x: 0.55, y: 0.58 }, { x: 0.54, y: 0.62 }, { x: 0.52, y: 0.66 },
-          { x: 0.50, y: 0.68 }, { x: 0.48, y: 0.66 }, { x: 0.47, y: 0.62 }, { x: 0.46, y: 0.58 },
-          { x: 0.47, y: 0.54 }, { x: 0.48, y: 0.50 }, { x: 0.49, y: 0.46 }, { x: 0.49, y: 0.42 },
+          function isInsideAsia(x: number, y: number): boolean {
+            if (x < 0.54 || x > 0.87 || y < 0.15 || y > 0.58) return false
+            
+            // Large irregular Asia shape
+            const northBound = 0.16 + 0.04 * Math.sin((x - 0.54) / 0.33 * Math.PI)
+            const southBound = 0.56 - 0.18 * Math.sin((x - 0.54) / 0.33 * Math.PI * 0.8)
+            return y >= northBound && y <= southBound
+          }
           
-          // Asia - Western Part
-          { x: 0.56, y: 0.18 }, { x: 0.60, y: 0.16 }, { x: 0.65, y: 0.18 }, { x: 0.70, y: 0.20 },
-          { x: 0.75, y: 0.22 }, { x: 0.78, y: 0.26 }, { x: 0.76, y: 0.30 }, { x: 0.73, y: 0.34 },
-          { x: 0.70, y: 0.38 }, { x: 0.67, y: 0.42 }, { x: 0.64, y: 0.45 }, { x: 0.61, y: 0.48 },
-          { x: 0.58, y: 0.45 }, { x: 0.56, y: 0.41 }, { x: 0.55, y: 0.37 }, { x: 0.54, y: 0.33 },
-          { x: 0.55, y: 0.29 }, { x: 0.56, y: 0.25 }, { x: 0.57, y: 0.21 },
+          function isInsideAustralia(x: number, y: number): boolean {
+            if (x < 0.76 || x > 0.89 || y < 0.66 || y > 0.78) return false
+            
+            // Oval Australia shape
+            const centerX = 0.825
+            const centerY = 0.72
+            const radiusX = 0.065
+            const radiusY = 0.06
+            const dx = (x - centerX) / radiusX
+            const dy = (y - centerY) / radiusY
+            return (dx * dx + dy * dy) <= 1
+          }
           
-          // Asia - Eastern Part (India, Southeast Asia)  
-          { x: 0.68, y: 0.48 }, { x: 0.70, y: 0.52 }, { x: 0.72, y: 0.56 }, { x: 0.75, y: 0.54 },
-          { x: 0.78, y: 0.52 }, { x: 0.80, y: 0.48 }, { x: 0.82, y: 0.44 }, { x: 0.85, y: 0.40 },
+          // Generate dots with proper continent shapes
+          for (let x = 0.05; x <= 0.92; x += 0.008) {
+            for (let y = 0.12; y <= 0.82; y += 0.008) {
+              let isLand = false
+              
+              if (isInsideNorthAmerica(x, y) || 
+                  isInsideSouthAmerica(x, y) || 
+                  isInsideEurope(x, y) || 
+                  isInsideAfrica(x, y) || 
+                  isInsideAsia(x, y) || 
+                  isInsideAustralia(x, y)) {
+                
+                // Add some randomness for organic coastlines
+                if (Math.random() > 0.15) {
+                  dots.push({x, y})
+                }
+              }
+            }
+          }
           
-          // Australia
-          { x: 0.78, y: 0.68 }, { x: 0.82, y: 0.67 }, { x: 0.86, y: 0.69 }, { x: 0.88, y: 0.72 },
-          { x: 0.86, y: 0.75 }, { x: 0.82, y: 0.76 }, { x: 0.78, y: 0.74 }, { x: 0.76, y: 0.71 },
-        ]
+          return dots
+        }
+        
+        const continentOutlines = generateFilledContinents()
 
         // Simple section detection based on scroll position
         function detectCurrentSection() {
@@ -307,6 +379,152 @@ export default function DotMatrixCanvas() {
             y: relativeY,
             width: imgRect.width,
             height: imgRect.height
+          }
+        }
+        
+        // Get section center position
+        function getSectionCenter() {
+          const geographiesSection = document.querySelector('#geographies')
+          if (!geographiesSection) return { x: p.width / 2, y: p.height / 2 }
+          
+          const rect = geographiesSection.getBoundingClientRect()
+          const canvasRect = p.canvas.getBoundingClientRect()
+          
+          // Calculate section center relative to canvas
+          const sectionCenterX = (rect.left + rect.width / 2) - canvasRect.left
+          const sectionCenterY = (rect.top + rect.height / 2) - canvasRect.top
+          
+          return { x: sectionCenterX, y: sectionCenterY }
+        }
+
+        // Initialize world map dots when entering section
+        function initializeWorldMapDots() {
+          worldMapDots = []
+          const sectionCenter = getSectionCenter()
+          
+          // Size the world map
+          const mapWidth = 600  // Fixed width in pixels
+          const mapHeight = 400 // Fixed height in pixels
+          const mapStartX = sectionCenter.x - mapWidth / 2
+          const mapStartY = sectionCenter.y - mapHeight / 2
+          
+          // Add continent dots
+          for (const continent of continentOutlines) {
+            const screenX = mapStartX + (continent.x * mapWidth)
+            const screenY = mapStartY + (continent.y * mapHeight)
+            const col = Math.floor(screenX / display.dotSpacing)
+            const row = Math.floor(screenY / display.dotSpacing)
+            
+            worldMapDots.push({
+              x: col,
+              y: row,
+              targetLuminance: 0.55, // 55% white for continents
+              currentLuminance: 0,
+              flickerDelay: Math.random() * 30, // Much faster reveal - up to 30 frames
+              isOffice: false
+            })
+          }
+          
+          // Add office dots
+          for (const office of officeLocations) {
+            const screenX = mapStartX + (office.x * mapWidth)
+            const screenY = mapStartY + (office.y * mapHeight)
+            const col = Math.floor(screenX / display.dotSpacing)
+            const row = Math.floor(screenY / display.dotSpacing)
+            
+            worldMapDots.push({
+              x: col,
+              y: row,
+              targetLuminance: 1.0, // Full white for offices
+              currentLuminance: 0,
+              flickerDelay: Math.random() * 15, // Offices appear very fast
+              isOffice: true
+            })
+          }
+        }
+        
+        // Update world map positions to follow scroll
+        function updateWorldMapPositions() {
+          const sectionCenter = getSectionCenter()
+          const mapWidth = 600
+          const mapHeight = 400
+          const mapStartX = sectionCenter.x - mapWidth / 2
+          const mapStartY = sectionCenter.y - mapHeight / 2
+          
+          let i = 0
+          // Update continent positions
+          for (const continent of continentOutlines) {
+            const screenX = mapStartX + (continent.x * mapWidth)
+            const screenY = mapStartY + (continent.y * mapHeight)
+            const col = Math.floor(screenX / display.dotSpacing)
+            const row = Math.floor(screenY / display.dotSpacing)
+            
+            if (worldMapDots[i]) {
+              worldMapDots[i].x = col
+              worldMapDots[i].y = row
+            }
+            i++
+          }
+          
+          // Update office positions
+          for (const office of officeLocations) {
+            const screenX = mapStartX + (office.x * mapWidth)
+            const screenY = mapStartY + (office.y * mapHeight)
+            const col = Math.floor(screenX / display.dotSpacing)
+            const row = Math.floor(screenY / display.dotSpacing)
+            
+            if (worldMapDots[i]) {
+              worldMapDots[i].x = col
+              worldMapDots[i].y = row
+            }
+            i++
+          }
+        }
+        
+        // Update world map animation
+        function updateWorldMapAnimation() {
+          for (const dot of worldMapDots) {
+            if (isFillingIn) {
+              // Filling in - quick flickery animation
+              if (dot.flickerDelay > 0) {
+                dot.flickerDelay--
+              } else {
+                // Much faster fill towards target
+                const fillSpeed = dot.isOffice ? 0.3 : 0.25 // Faster speeds
+                dot.currentLuminance = p.lerp(dot.currentLuminance, dot.targetLuminance, fillSpeed)
+                
+                // Add random flicker but ensure we reach target
+                if (Math.random() < 0.2 && dot.currentLuminance < dot.targetLuminance * 0.9) {
+                  dot.currentLuminance += (Math.random() - 0.3) * 0.15
+                }
+                
+                // Snap to target when very close to ensure all dots reach final destination
+                if (Math.abs(dot.currentLuminance - dot.targetLuminance) < 0.05) {
+                  dot.currentLuminance = dot.targetLuminance
+                }
+              }
+            } else if (isFadingOut) {
+              // Fading out - individual randomness
+              const fadeSpeed = (0.02 + Math.random() * 0.04) // 0.02 to 0.06 per frame
+              dot.currentLuminance = Math.max(0, dot.currentLuminance - fadeSpeed)
+              
+              // Random flicker during fade
+              if (Math.random() < 0.1) {
+                dot.currentLuminance = Math.max(0, dot.currentLuminance - Math.random() * 0.1)
+              }
+            }
+            
+            // Clamp values
+            dot.currentLuminance = Math.max(0, Math.min(1, dot.currentLuminance))
+          }
+        }
+        
+        // Render world map dots
+        function renderWorldMap() {
+          for (const dot of worldMapDots) {
+            if (dot.currentLuminance > 0.01) { // Only render visible dots
+              display.setPixel(dot.x, dot.y, dot.currentLuminance)
+            }
           }
         }
 
@@ -381,32 +599,40 @@ export default function DotMatrixCanvas() {
           
           // Section-specific rendering
           if (currentSection === 'geographies') {
-            // World map mode: show continent outlines and office locations
-            display.clearDisplay(0) // Clear background
-            
-            // Get SVG bounds for coordinate mapping
-            const svgBounds = getSVGBounds()
-            
-            if (svgBounds) {
-              // Draw continent outlines with subtle luminance
-              for (const continent of continentOutlines) {
-                const screenX = svgBounds.x + (continent.x * svgBounds.width)
-                const screenY = svgBounds.y + (continent.y * svgBounds.height)
-                const col = Math.floor(screenX / display.dotSpacing)
-                const row = Math.floor(screenY / display.dotSpacing)
-                display.setPixel(col, row, 0.08) // Very subtle continent outline
-              }
-              
-              // Draw office locations as single bright dots
-              for (const office of officeLocations) {
-                const screenX = svgBounds.x + (office.x * svgBounds.width)
-                const screenY = svgBounds.y + (office.y * svgBounds.height)
-                const col = Math.floor(screenX / display.dotSpacing)
-                const row = Math.floor(screenY / display.dotSpacing)
-                display.setPixel(col, row, 1.0) // Full brightness single dot
-              }
+            // Check for section transitions
+            if (lastSection !== 'geographies') {
+              // Just entered geographies section - start filling in
+              initializeWorldMapDots()
+              isFillingIn = true
+              isFadingOut = false
             }
-          } else {
+            
+            // Update positions to follow scroll and render world map with flicker animation
+            updateWorldMapPositions()
+            updateWorldMapAnimation()
+            renderWorldMap()
+          } else if (lastSection === 'geographies') {
+            // Just left geographies section - start fading out
+            isFillingIn = false
+            isFadingOut = true
+          }
+          
+          // Continue fade out animation even when not in section
+          if (isFadingOut && currentSection !== 'geographies') {
+            updateWorldMapPositions()
+            updateWorldMapAnimation()
+            renderWorldMap()
+            
+            // Check if all dots have faded out
+            if (worldMapDots.every(dot => dot.currentLuminance <= 0)) {
+              isFadingOut = false
+              worldMapDots = []
+            }
+          }
+          
+          lastSection = currentSection
+          
+          if (currentSection !== 'geographies' && !isFadingOut) {
             // Default mode: subtle scroll-based animation
             if (Math.abs(scrollDelta) > 0.1) {
               for (let i = 0; i < 5; i++) { // Much fewer random dots

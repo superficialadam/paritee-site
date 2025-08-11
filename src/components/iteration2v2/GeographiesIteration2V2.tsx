@@ -28,7 +28,7 @@ export default function GeographiesIteration2V2() {
             src="/svg/worldmap.svg"
             alt="World Map"
             fill
-            className="object-contain opacity-30"
+            className="object-contain opacity-0"
             priority
           />
         </div>
