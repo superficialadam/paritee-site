@@ -1,0 +1,110 @@
+{
+  "timestamp": "2025-08-10T21:33:31.822Z",
+  "overall": {
+    "passed": 0,
+    "failed": 4,
+    "warnings": 8
+  },
+  "pages": [
+    {
+      "name": "Homepage",
+      "path": "/nightly/synthesis-c",
+      "url": "http://localhost:3001/nightly/synthesis-c",
+      "critical": true,
+      "performance": {},
+      "accessibility": {},
+      "technical": {},
+      "issues": [
+        "Validation error: Waiting failed: 10000ms exceeded"
+      ],
+      "passed": false
+    },
+    {
+      "name": "Services",
+      "path": "/nightly/synthesis-c/services",
+      "url": "http://localhost:3001/nightly/synthesis-c/services",
+      "critical": true,
+      "performance": {},
+      "accessibility": {},
+      "technical": {},
+      "issues": [
+        "Validation error: Waiting failed: 10000ms exceeded"
+      ],
+      "passed": false
+    },
+    {
+      "name": "Cases",
+      "path": "/nightly/synthesis-c/cases",
+      "url": "http://localhost:3001/nightly/synthesis-c/cases",
+      "critical": false,
+      "performance": {},
+      "accessibility": {},
+      "technical": {},
+      "issues": [
+        "Validation error: HTTP 404: Not Found"
+      ],
+      "passed": false
+    },
+    {
+      "name": "Contact",
+      "path": "/nightly/synthesis-c/contact",
+      "url": "http://localhost:3001/nightly/synthesis-c/contact",
+      "critical": false,
+      "performance": {},
+      "accessibility": {},
+      "technical": {},
+      "issues": [
+        "Validation error: HTTP 404: Not Found"
+      ],
+      "passed": false
+    }
+  ],
+  "technical": [
+    {
+      "feature": "ServiceWorker registration",
+      "present": false,
+      "status": "WARN"
+    },
+    {
+      "feature": "Progressive enhancement detection",
+      "present": false,
+      "status": "WARN"
+    },
+    {
+      "feature": "Performance monitoring",
+      "present": false,
+      "status": "WARN"
+    },
+    {
+      "feature": "Error boundary functionality",
+      "present": false,
+      "status": "WARN"
+    },
+    {
+      "feature": "Canvas rendering optimization",
+      "present": false,
+      "status": "WARN"
+    },
+    {
+      "feature": "Motion preference detection",
+      "present": false,
+      "status": "WARN"
+    },
+    {
+      "feature": "Accessibility features",
+      "present": false,
+      "status": "WARN"
+    },
+    {
+      "feature": "Memory leak prevention",
+      "present": false,
+      "status": "WARN"
+    }
+  ],
+  "summary": {
+    "totalTests": 12,
+    "passRate": 0,
+    "criticalIssues": 2,
+    "technicalScore": 0
+  }
+}

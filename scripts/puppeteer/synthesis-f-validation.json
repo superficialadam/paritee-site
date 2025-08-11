@@ -1,0 +1,102 @@
+{
+  "timestamp": "2025-08-10T22:07:22.359Z",
+  "excellenceLevel": "ABSOLUTE",
+  "performance": {},
+  "accessibility": {},
+  "screenshots": {},
+  "errors": [
+    {
+      "page": "home",
+      "viewport": "desktop",
+      "error": "png screenshots do not support 'quality'.",
+      "timestamp": "2025-08-10T22:07:26.484Z"
+    },
+    {
+      "page": "services",
+      "viewport": "desktop",
+      "error": "png screenshots do not support 'quality'.",
+      "timestamp": "2025-08-10T22:07:29.614Z"
+    },
+    {
+      "page": "contact",
+      "viewport": "desktop",
+      "error": "png screenshots do not support 'quality'.",
+      "timestamp": "2025-08-10T22:07:32.583Z"
+    },
+    {
+      "page": "cases",
+      "viewport": "desktop",
+      "error": "png screenshots do not support 'quality'.",
+      "timestamp": "2025-08-10T22:07:35.739Z"
+    },
+    {
+      "page": "agencies",
+      "viewport": "desktop",
+      "error": "png screenshots do not support 'quality'.",
+      "timestamp": "2025-08-10T22:07:38.724Z"
+    },
+    {
+      "page": "home",
+      "viewport": "tablet",
+      "error": "png screenshots do not support 'quality'.",
+      "timestamp": "2025-08-10T22:07:41.780Z"
+    },
+    {
+      "page": "services",
+      "viewport": "tablet",
+      "error": "png screenshots do not support 'quality'.",
+      "timestamp": "2025-08-10T22:07:44.711Z"
+    },
+    {
+      "page": "contact",
+      "viewport": "tablet",
+      "error": "png screenshots do not support 'quality'.",
+      "timestamp": "2025-08-10T22:07:47.624Z"
+    },
+    {
+      "page": "cases",
+      "viewport": "tablet",
+      "error": "png screenshots do not support 'quality'.",
+      "timestamp": "2025-08-10T22:07:50.580Z"
+    },
+    {
+      "page": "agencies",
+      "viewport": "tablet",
+      "error": "png screenshots do not support 'quality'.",
+      "timestamp": "2025-08-10T22:07:53.497Z"
+    },
+    {
+      "page": "home",
+      "viewport": "mobile",
+      "error": "png screenshots do not support 'quality'.",
+      "timestamp": "2025-08-10T22:07:56.641Z"
+    },
+    {
+      "page": "services",
+      "viewport": "mobile",
+      "error": "png screenshots do not support 'quality'.",
+      "timestamp": "2025-08-10T22:07:59.643Z"
+    },
+    {
+      "page": "contact",
+      "viewport": "mobile",
+      "error": "png screenshots do not support 'quality'.",
+      "timestamp": "2025-08-10T22:08:02.691Z"
+    },
+    {
+      "page": "cases",
+      "viewport": "mobile",
+      "error": "png screenshots do not support 'quality'.",
+      "timestamp": "2025-08-10T22:08:05.632Z"
+    },
+    {
+      "page": "agencies",
+      "viewport": "mobile",
+      "error": "png screenshots do not support 'quality'.",
+      "timestamp": "2025-08-10T22:08:08.797Z"
+    }
+  ],
+  "excellenceScore": 0,
+  "totalErrors": 15,
+  "successRate": "0/15"
+}

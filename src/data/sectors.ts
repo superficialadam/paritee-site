@@ -6,33 +6,33 @@ export interface Sector {
 
 export const sectors: Sector[] = [
   {
-    id: 'automotive',
-    name: 'Automotive',
-    description: 'Leading automotive brands and mobility solutions'
+    id: 'energy',
+    name: 'Energy',
+    description: 'Renewable energy, utilities, and sustainable infrastructure solutions'
   },
   {
     id: 'finance',
-    name: 'Financial Services',
-    description: 'Banking, insurance, and fintech innovation'
-  },
-  {
-    id: 'technology',
-    name: 'Technology',
-    description: 'Software, hardware, and digital platforms'
+    name: 'Finance',
+    description: 'Banking, insurance, fintech, and capital markets expertise'
   },
   {
     id: 'healthcare',
     name: 'Healthcare',
-    description: 'Pharmaceuticals, medical devices, and wellness'
+    description: 'Pharmaceuticals, medical devices, healthcare systems, and wellness'
   },
   {
-    id: 'retail',
-    name: 'Retail & E-commerce',
-    description: 'Consumer brands and omnichannel experiences'
+    id: 'infrastructure',
+    name: 'Infrastructure',
+    description: 'Transport, utilities, smart cities, and urban development'
   },
   {
-    id: 'media',
-    name: 'Media & Entertainment',
-    description: 'Content, streaming, and entertainment platforms'
+    id: 'public-sector',
+    name: 'Public Sector',
+    description: 'Government relations, public policy, and civic engagement'
+  },
+  {
+    id: 'technology',
+    name: 'Technology',
+    description: 'Software, hardware, digital platforms, and emerging tech'
   }
 ]

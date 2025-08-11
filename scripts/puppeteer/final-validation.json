@@ -1,0 +1,74 @@
+{
+  "timestamp": "2025-08-10T21:40:14.064Z",
+  "landing": {
+    "errors": [],
+    "success": true
+  },
+  "versions": {
+    "base": {
+      "errors": [],
+      "success": true
+    },
+    "design-a": {
+      "errors": [],
+      "success": true
+    },
+    "design-b": {
+      "errors": [],
+      "success": true
+    },
+    "design-c": {
+      "errors": [],
+      "success": true
+    },
+    "motion-a": {
+      "errors": [],
+      "success": true
+    },
+    "motion-b": {
+      "errors": [],
+      "success": true
+    },
+    "motion-c": {
+      "errors": [],
+      "success": true
+    },
+    "canvas-a": {
+      "errors": [
+        "canvas-a failed to load: Navigation timeout of 20000 ms exceeded"
+      ],
+      "success": false
+    },
+    "canvas-b": {
+      "errors": [],
+      "success": true
+    },
+    "canvas-c": {
+      "errors": [],
+      "success": true
+    },
+    "synthesis-a": {
+      "errors": [],
+      "success": true
+    },
+    "synthesis-b": {
+      "errors": [
+        "synthesis-b failed to load: Navigation timeout of 20000 ms exceeded"
+      ],
+      "success": false
+    },
+    "synthesis-c": {
+      "errors": [],
+      "success": true
+    }
+  },
+  "summary": {
+    "total": 14,
+    "successful": 12,
+    "failed": 2,
+    "errors": [
+      "canvas-a failed to load: Navigation timeout of 20000 ms exceeded",
+      "synthesis-b failed to load: Navigation timeout of 20000 ms exceeded"
+    ]
+  }
+}

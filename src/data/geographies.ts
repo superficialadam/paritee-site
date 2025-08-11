@@ -5,27 +5,23 @@ export interface Geography {
 
 export const geographies: Geography[] = [
   {
-    country: 'United States',
-    cities: ['New York', 'Los Angeles', 'Chicago', 'Miami', 'Austin']
-  },
-  {
-    country: 'United Kingdom',
-    cities: ['London', 'Manchester', 'Edinburgh', 'Bristol']
+    country: 'The Nordics',
+    cities: ['Copenhagen', 'Oslo', 'Stockholm']
   },
   {
     country: 'Germany',
-    cities: ['Berlin', 'Munich', 'Hamburg', 'Frankfurt']
+    cities: ['Berlin', 'Frankfurt', 'Munich']
   },
   {
-    country: 'France',
-    cities: ['Paris', 'Lyon', 'Marseille', 'Toulouse']
+    country: 'MENA',
+    cities: ['Dubai']
   },
   {
-    country: 'Australia',
-    cities: ['Sydney', 'Melbourne', 'Brisbane', 'Perth']
+    country: 'UK & Ireland',
+    cities: ['London', 'Dublin']
   },
   {
-    country: 'Japan',
-    cities: ['Tokyo', 'Osaka', 'Kyoto', 'Nagoya']
+    country: 'USA',
+    cities: ['New York', 'Minneapolis', 'San Francisco']
   }
 ]

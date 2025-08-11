@@ -1,0 +1,56 @@
+{
+  "version": "motion-b",
+  "timestamp": "2025-08-10T21:05:20.565Z",
+  "pages": {
+    "Home": {
+      "errors": [],
+      "warnings": [],
+      "success": true
+    },
+    "Services": {
+      "errors": [],
+      "warnings": [],
+      "success": true
+    },
+    "Sectors": {
+      "errors": [],
+      "warnings": [],
+      "success": true
+    },
+    "Geographies": {
+      "errors": [],
+      "warnings": [],
+      "success": true
+    },
+    "Agencies": {
+      "errors": [],
+      "warnings": [],
+      "success": true
+    },
+    "Cases": {
+      "errors": [],
+      "warnings": [],
+      "success": true
+    },
+    "Team": {
+      "errors": [],
+      "warnings": [],
+      "success": true
+    },
+    "News": {
+      "errors": [],
+      "warnings": [],
+      "success": true
+    },
+    "Contact": {
+      "errors": [],
+      "warnings": [],
+      "success": true
+    }
+  },
+  "filtering": {},
+  "overall": {
+    "errors": [],
+    "warnings": []
+  }
+}

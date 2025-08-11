@@ -1,0 +1,493 @@
+/* Synthesis-B: Ultimate User Experience Performance CSS */
+/* Combining best practices from Motion-C with UX enhancements */
+
+/* Core Performance Setup with Accessibility First */
+* {
+  /* Enable hardware acceleration only when beneficial */
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Comprehensive reduced motion support - WCAG AA compliant */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+    transform: none !important;
+  }
+  
+  .motion-page-enter,
+  .motion-card-hover,
+  .motion-button-hover,
+  .motion-nav-item,
+  .motion-logo-hover,
+  .motion-mobile-nav-item {
+    transform: none !important;
+    animation: none !important;
+    transition: color 0.2s ease, background-color 0.2s ease !important;
+  }
+}
+
+/* Page Entry Animations - Ultra-smooth GPU optimized */
+.motion-page-enter {
+  animation: pageEnterUX 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  will-change: transform, opacity;
+  contain: layout style paint;
+}
+
+@keyframes pageEnterUX {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) translateZ(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+/* Staggered Content Animation with accessibility timing */
+.motion-stagger-item {
+  animation: staggerInUX 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-delay: var(--stagger-delay, 0ms);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+@keyframes staggerInUX {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) translateZ(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+/* Header Sticky Animation with performance optimization */
+.motion-header-sticky {
+  transition: transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              box-shadow 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, box-shadow;
+  contain: layout style paint;
+}
+
+.motion-header-sticky.scrolled {
+  transform: translateY(-2px) translateZ(0);
+  box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.3);
+}
+
+/* Logo Hover Effect - Accessible and smooth */
+.motion-logo-hover {
+  transform: translateZ(0);
+  transition: transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.motion-logo-hover:hover {
+  transform: scale(1.02) translateZ(0);
+}
+
+.motion-logo-hover:focus-visible {
+  transform: scale(1.02) translateZ(0);
+}
+
+/* Navigation Item Animations with enhanced UX */
+.motion-nav-item {
+  transform: translateZ(0);
+  transition: transform 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              color 200ms ease,
+              background-color 200ms ease,
+              box-shadow 200ms ease;
+  contain: layout style;
+}
+
+.motion-nav-item:hover {
+  transform: translateY(-2px) translateZ(0);
+}
+
+.motion-nav-item:focus-visible {
+  transform: translateY(-2px) translateZ(0);
+}
+
+.motion-nav-item:active {
+  transform: translateY(-1px) scale(0.98) translateZ(0);
+  transition-duration: 150ms;
+}
+
+/* Mobile Menu Animations - Optimized for touch */
+.motion-mobile-menu-open {
+  animation: mobileMenuOpenUX 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.motion-mobile-menu-closed {
+  animation: mobileMenuCloseUX 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes mobileMenuOpenUX {
+  0% {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-8px) translateZ(0);
+  }
+  100% {
+    max-height: 100vh;
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+@keyframes mobileMenuCloseUX {
+  0% {
+    max-height: 100vh;
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+  100% {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-8px) translateZ(0);
+  }
+}
+
+.motion-mobile-nav-item {
+  transform: translateZ(0);
+  transition: transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              background-color 200ms ease,
+              color 200ms ease;
+  contain: layout style;
+}
+
+.motion-mobile-nav-item:hover {
+  transform: translateX(6px) translateZ(0);
+}
+
+.motion-mobile-nav-item:focus-visible {
+  transform: translateX(6px) translateZ(0);
+}
+
+.motion-mobile-nav-item:active {
+  transform: translateX(4px) scale(0.98) translateZ(0);
+}
+
+/* Menu Button Animation with enhanced touch feedback */
+.motion-menu-button {
+  transform: translateZ(0);
+  transition: transform 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              background-color 200ms ease;
+}
+
+.motion-menu-button:hover {
+  transform: scale(1.05) translateZ(0);
+}
+
+.motion-menu-button:focus-visible {
+  transform: scale(1.05) translateZ(0);
+}
+
+.motion-menu-button:active {
+  transform: scale(0.95) translateZ(0);
+  transition-duration: 150ms;
+}
+
+/* Card Hover Effects - Performance Optimized with UX focus */
+.motion-card {
+  transition: transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              box-shadow 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+  contain: layout style paint;
+  transform: translateZ(0);
+}
+
+.motion-card:hover {
+  transform: translateY(-4px) translateZ(0);
+  box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.25);
+}
+
+.motion-card:focus-within {
+  transform: translateY(-4px) translateZ(0);
+  box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.25);
+}
+
+.motion-card:active {
+  transform: translateY(-2px) scale(0.98) translateZ(0);
+  transition-duration: 150ms;
+}
+
+/* Card Icon Animation with organic feel */
+.motion-card-icon {
+  transition: transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.motion-card:hover .motion-card-icon,
+.motion-card:focus-within .motion-card-icon {
+  transform: scale(1.1) rotate(5deg) translateZ(0);
+}
+
+/* Button Animations - Enhanced UX with accessibility */
+.motion-button {
+  transition: all 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+  transform: translateZ(0);
+  contain: layout style paint;
+}
+
+.motion-button:hover {
+  transform: translateY(-2px) translateZ(0);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.motion-button:focus-visible {
+  transform: translateY(-2px) translateZ(0);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.motion-button:active {
+  transform: translateY(0) scale(0.96) translateZ(0);
+  transition-duration: 100ms;
+}
+
+/* Image Hover Effects with performance optimization */
+.motion-image {
+  transition: transform 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+  transform: translateZ(0);
+  overflow: hidden;
+}
+
+.motion-image:hover {
+  transform: scale(1.03) translateZ(0);
+}
+
+.motion-image:focus-within {
+  transform: scale(1.03) translateZ(0);
+}
+
+/* Scroll-triggered Animations with enhanced timing */
+.motion-fade-in-up {
+  opacity: 0;
+  transform: translateY(24px) translateZ(0);
+  transition: opacity 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              transform 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, opacity;
+}
+
+.motion-fade-in-up.in-view {
+  opacity: 1;
+  transform: translateY(0) translateZ(0);
+}
+
+/* Performance: Batch Layout Changes */
+.motion-layout-batch {
+  contain: layout style paint;
+  will-change: auto;
+}
+
+/* Text Reveal Animation with stagger support */
+.motion-text-reveal {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(12px) translateZ(0);
+  animation: textRevealUX 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-delay: var(--text-delay, 0ms);
+}
+
+@keyframes textRevealUX {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) translateZ(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+/* Loading States - Accessible Skeleton Animation */
+.motion-skeleton {
+  background: linear-gradient(90deg, #334155 25%, #475569 50%, #334155 75%);
+  background-size: 200% 100%;
+  animation: skeletonPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes skeletonPulse {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Enhanced Focus States - WCAG AAA compliant */
+.motion-focus {
+  transition: box-shadow 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.motion-focus:focus-visible {
+  animation: focusPulseUX 800ms ease-out;
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+@keyframes focusPulseUX {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+/* Performance Monitor for Development */
+.motion-performance-monitor {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  font-size: 12px;
+  z-index: 9999;
+  border-radius: 8px;
+  backdrop-filter: blur(12px);
+  pointer-events: none;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+}
+
+/* Mobile Optimizations - Touch-first design */
+@media (max-width: 768px) {
+  .motion-card:hover {
+    transform: none; /* Disable hover on touch devices */
+  }
+  
+  .motion-card:active {
+    transform: scale(0.96) translateZ(0);
+    transition-duration: 100ms;
+  }
+  
+  /* Optimize animation timing for mobile */
+  .motion-page-enter {
+    animation-duration: 200ms;
+  }
+  
+  .motion-stagger-item {
+    animation-duration: 250ms;
+  }
+  
+  /* Enhanced touch targets */
+  .motion-nav-item,
+  .motion-mobile-nav-item,
+  .motion-menu-button,
+  .motion-button {
+    min-height: 48px;
+    min-width: 48px;
+  }
+}
+
+/* High refresh rate optimizations */
+@media (min-resolution: 120dpi) {
+  .motion-card,
+  .motion-button,
+  .motion-nav-item,
+  .motion-logo-hover {
+    will-change: transform;
+  }
+}
+
+/* Dark theme optimizations */
+@media (prefers-color-scheme: dark) {
+  .motion-skeleton {
+    background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+    background-size: 200% 100%;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .motion-focus:focus-visible {
+    outline: 3px solid;
+    outline-offset: 3px;
+  }
+  
+  .motion-card:hover,
+  .motion-card:focus-within {
+    outline: 2px solid;
+    outline-offset: 2px;
+  }
+}
+
+/* Preload critical animations - prevents FOUC */
+.motion-preload {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Clean up will-change after animations complete */
+.motion-complete {
+  will-change: auto;
+}
+
+/* Touch-specific states for enhanced feedback */
+.touch-active {
+  transform: scale(0.96) translateZ(0);
+  transition-duration: 100ms;
+}
+
+/* Battery optimization - pause animations */
+.motion-paused * {
+  animation-play-state: paused !important;
+}
+
+/* Additional performance optimizations for grids */
+.motion-card-grid {
+  contain: layout style paint;
+  transform: translateZ(0);
+}
+
+/* Optimize image loading states */
+.motion-image-loading {
+  background: linear-gradient(90deg, #334155 25%, #475569 50%, #334155 75%);
+  background-size: 200% 100%;
+  animation: skeletonPulse 1.8s infinite ease-in-out;
+}
+
+/* Transform batching for performance */
+.motion-transform-batch {
+  will-change: transform;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Scroll-based animations with intersection observer optimization */
+.motion-scroll-trigger {
+  transition: opacity 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Enhanced button press states for better UX feedback */
+.motion-button-press {
+  transform: scale(0.94) translateZ(0);
+  transition-duration: 80ms;
+}
+
+/* Micro-interactions for enhanced UX */
+.motion-micro-bounce {
+  animation: microBounce 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes microBounce {
+  0% { transform: scale(1) translateZ(0); }
+  50% { transform: scale(1.05) translateZ(0); }
+  100% { transform: scale(1) translateZ(0); }
+}

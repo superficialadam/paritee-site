@@ -1,0 +1,45 @@
+/* Canvas A Performance Optimizations */
+
+/* Improve transform performance for animations */
+.motion-reduce\:transition-none {
+  will-change: auto;
+}
+
+.motion-reduce\:hover\:scale-100:hover {
+  transform: none;
+}
+
+.motion-reduce\:hover\:-translate-y-0:hover {
+  transform: none;
+}
+
+/* Optimize for GPU acceleration */
+.transform-gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Canvas container optimizations */
+#canvas-container {
+  transform: translateZ(0);
+  will-change: transform;
+  contain: layout style paint;
+}
+
+/* Reduce motion for accessibility and performance */
+@media (prefers-reduced-motion: reduce) {
+  .motion-reduce\:transition-none * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Performance hint for canvas */
+canvas {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}

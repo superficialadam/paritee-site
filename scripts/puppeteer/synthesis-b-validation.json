@@ -1,0 +1,540 @@
+{
+  "version": "synthesis-b",
+  "timestamp": "2025-08-10T21:27:38.907Z",
+  "pages": {
+    "Home": {
+      "accessibility": {
+        "errors": [],
+        "warnings": [
+          "No skip links found for keyboard navigation"
+        ],
+        "success": true
+      },
+      "performance": {
+        "metrics": {
+          "JSHeapUsedSize": 7,
+          "JSHeapTotalSize": 11,
+          "LayoutCount": 42,
+          "RecalcStyleCount": 101,
+          "JSEventListeners": 617,
+          "Nodes": 400
+        },
+        "warnings": [
+          "High layout count: 42",
+          "High event listener count: 617"
+        ],
+        "success": true
+      },
+      "ux": {
+        "elements": {
+          "hasScrollProgress": false,
+          "hasSkipLinks": false,
+          "hasLargeClickTargets": false,
+          "hasMotionClasses": false,
+          "hasAriaLabels": false,
+          "hasFocusIndicators": false,
+          "hasInteractiveCanvas": false
+        },
+        "warnings": [
+          "No scroll progress indicator found",
+          "No skip links found",
+          "Touch targets may be too small (< 44px)",
+          "No motion animation classes detected",
+          "No ARIA labels found"
+        ],
+        "success": true
+      },
+      "screenshots": {
+        "desktop": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/home-desktop-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/home-desktop-full.png"
+        },
+        "tablet": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/home-tablet-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/home-tablet-full.png"
+        },
+        "mobile": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/home-mobile-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/home-mobile-full.png"
+        }
+      },
+      "success": true
+    },
+    "Services": {
+      "accessibility": {
+        "errors": [],
+        "warnings": [
+          "No skip links found for keyboard navigation"
+        ],
+        "success": true
+      },
+      "performance": {
+        "metrics": {
+          "JSHeapUsedSize": 6,
+          "JSHeapTotalSize": 11,
+          "LayoutCount": 11,
+          "RecalcStyleCount": 107,
+          "JSEventListeners": 632,
+          "Nodes": 400
+        },
+        "warnings": [
+          "High layout count: 11",
+          "High event listener count: 632"
+        ],
+        "success": true
+      },
+      "ux": {
+        "elements": {
+          "hasScrollProgress": false,
+          "hasSkipLinks": false,
+          "hasLargeClickTargets": false,
+          "hasMotionClasses": false,
+          "hasAriaLabels": false,
+          "hasFocusIndicators": false,
+          "hasInteractiveCanvas": false
+        },
+        "warnings": [
+          "No scroll progress indicator found",
+          "No skip links found",
+          "Touch targets may be too small (< 44px)",
+          "No motion animation classes detected",
+          "No ARIA labels found"
+        ],
+        "success": true
+      },
+      "screenshots": {
+        "desktop": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/services-desktop-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/services-desktop-full.png"
+        },
+        "tablet": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/services-tablet-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/services-tablet-full.png"
+        },
+        "mobile": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/services-mobile-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/services-mobile-full.png"
+        }
+      },
+      "success": true
+    },
+    "Sectors": {
+      "accessibility": {
+        "errors": [],
+        "warnings": [
+          "No skip links found for keyboard navigation"
+        ],
+        "success": true
+      },
+      "performance": {
+        "metrics": {
+          "JSHeapUsedSize": 6,
+          "JSHeapTotalSize": 12,
+          "LayoutCount": 11,
+          "RecalcStyleCount": 106,
+          "JSEventListeners": 664,
+          "Nodes": 400
+        },
+        "warnings": [
+          "High layout count: 11",
+          "High event listener count: 664"
+        ],
+        "success": true
+      },
+      "ux": {
+        "elements": {
+          "hasScrollProgress": false,
+          "hasSkipLinks": false,
+          "hasLargeClickTargets": false,
+          "hasMotionClasses": false,
+          "hasAriaLabels": false,
+          "hasFocusIndicators": false,
+          "hasInteractiveCanvas": false
+        },
+        "warnings": [
+          "No scroll progress indicator found",
+          "No skip links found",
+          "Touch targets may be too small (< 44px)",
+          "No motion animation classes detected",
+          "No ARIA labels found"
+        ],
+        "success": true
+      },
+      "screenshots": {
+        "desktop": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/sectors-desktop-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/sectors-desktop-full.png"
+        },
+        "tablet": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/sectors-tablet-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/sectors-tablet-full.png"
+        },
+        "mobile": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/sectors-mobile-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/sectors-mobile-full.png"
+        }
+      },
+      "success": true
+    },
+    "Geographies": {
+      "accessibility": {
+        "errors": [],
+        "warnings": [
+          "No skip links found for keyboard navigation"
+        ],
+        "success": true
+      },
+      "performance": {
+        "metrics": {
+          "JSHeapUsedSize": 6,
+          "JSHeapTotalSize": 12,
+          "LayoutCount": 11,
+          "RecalcStyleCount": 106,
+          "JSEventListeners": 616,
+          "Nodes": 400
+        },
+        "warnings": [
+          "High layout count: 11",
+          "High event listener count: 616"
+        ],
+        "success": true
+      },
+      "ux": {
+        "elements": {
+          "hasScrollProgress": false,
+          "hasSkipLinks": false,
+          "hasLargeClickTargets": false,
+          "hasMotionClasses": false,
+          "hasAriaLabels": false,
+          "hasFocusIndicators": false,
+          "hasInteractiveCanvas": false
+        },
+        "warnings": [
+          "No scroll progress indicator found",
+          "No skip links found",
+          "Touch targets may be too small (< 44px)",
+          "No motion animation classes detected",
+          "No ARIA labels found"
+        ],
+        "success": true
+      },
+      "screenshots": {
+        "desktop": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/geographies-desktop-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/geographies-desktop-full.png"
+        },
+        "tablet": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/geographies-tablet-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/geographies-tablet-full.png"
+        },
+        "mobile": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/geographies-mobile-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/geographies-mobile-full.png"
+        }
+      },
+      "success": true
+    },
+    "Agencies": {
+      "accessibility": {
+        "errors": [],
+        "warnings": [
+          "No skip links found for keyboard navigation"
+        ],
+        "success": true
+      },
+      "performance": {
+        "metrics": {
+          "JSHeapUsedSize": 7,
+          "JSHeapTotalSize": 12,
+          "LayoutCount": 11,
+          "RecalcStyleCount": 106,
+          "JSEventListeners": 632,
+          "Nodes": 400
+        },
+        "warnings": [
+          "High layout count: 11",
+          "High event listener count: 632"
+        ],
+        "success": true
+      },
+      "ux": {
+        "elements": {
+          "hasScrollProgress": false,
+          "hasSkipLinks": false,
+          "hasLargeClickTargets": false,
+          "hasMotionClasses": false,
+          "hasAriaLabels": false,
+          "hasFocusIndicators": false,
+          "hasInteractiveCanvas": false
+        },
+        "warnings": [
+          "No scroll progress indicator found",
+          "No skip links found",
+          "Touch targets may be too small (< 44px)",
+          "No motion animation classes detected",
+          "No ARIA labels found"
+        ],
+        "success": true
+      },
+      "screenshots": {
+        "desktop": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/agencies-desktop-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/agencies-desktop-full.png"
+        },
+        "tablet": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/agencies-tablet-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/agencies-tablet-full.png"
+        },
+        "mobile": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/agencies-mobile-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/agencies-mobile-full.png"
+        }
+      },
+      "success": true
+    },
+    "Cases": {
+      "accessibility": {
+        "errors": [],
+        "warnings": [
+          "No skip links found for keyboard navigation"
+        ],
+        "success": true
+      },
+      "performance": {
+        "metrics": {
+          "JSHeapUsedSize": 7,
+          "JSHeapTotalSize": 11,
+          "LayoutCount": 11,
+          "RecalcStyleCount": 107,
+          "JSEventListeners": 616,
+          "Nodes": 400
+        },
+        "warnings": [
+          "High layout count: 11",
+          "High event listener count: 616"
+        ],
+        "success": true
+      },
+      "ux": {
+        "elements": {
+          "hasScrollProgress": false,
+          "hasSkipLinks": false,
+          "hasLargeClickTargets": false,
+          "hasMotionClasses": false,
+          "hasAriaLabels": false,
+          "hasFocusIndicators": false,
+          "hasInteractiveCanvas": false
+        },
+        "warnings": [
+          "No scroll progress indicator found",
+          "No skip links found",
+          "Touch targets may be too small (< 44px)",
+          "No motion animation classes detected",
+          "No ARIA labels found"
+        ],
+        "success": true
+      },
+      "screenshots": {
+        "desktop": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/cases-desktop-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/cases-desktop-full.png"
+        },
+        "tablet": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/cases-tablet-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/cases-tablet-full.png"
+        },
+        "mobile": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/cases-mobile-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/cases-mobile-full.png"
+        }
+      },
+      "success": true
+    },
+    "Team": {
+      "accessibility": {
+        "errors": [],
+        "warnings": [
+          "No skip links found for keyboard navigation"
+        ],
+        "success": true
+      },
+      "performance": {
+        "metrics": {
+          "JSHeapUsedSize": 6,
+          "JSHeapTotalSize": 11,
+          "LayoutCount": 11,
+          "RecalcStyleCount": 107,
+          "JSEventListeners": 632,
+          "Nodes": 400
+        },
+        "warnings": [
+          "High layout count: 11",
+          "High event listener count: 632"
+        ],
+        "success": true
+      },
+      "ux": {
+        "elements": {
+          "hasScrollProgress": false,
+          "hasSkipLinks": false,
+          "hasLargeClickTargets": false,
+          "hasMotionClasses": false,
+          "hasAriaLabels": false,
+          "hasFocusIndicators": false,
+          "hasInteractiveCanvas": false
+        },
+        "warnings": [
+          "No scroll progress indicator found",
+          "No skip links found",
+          "Touch targets may be too small (< 44px)",
+          "No motion animation classes detected",
+          "No ARIA labels found"
+        ],
+        "success": true
+      },
+      "screenshots": {
+        "desktop": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/team-desktop-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/team-desktop-full.png"
+        },
+        "tablet": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/team-tablet-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/team-tablet-full.png"
+        },
+        "mobile": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/team-mobile-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/team-mobile-full.png"
+        }
+      },
+      "success": true
+    },
+    "News": {
+      "accessibility": {
+        "errors": [],
+        "warnings": [
+          "No skip links found for keyboard navigation"
+        ],
+        "success": true
+      },
+      "performance": {
+        "metrics": {
+          "JSHeapUsedSize": 6,
+          "JSHeapTotalSize": 12,
+          "LayoutCount": 11,
+          "RecalcStyleCount": 108,
+          "JSEventListeners": 664,
+          "Nodes": 400
+        },
+        "warnings": [
+          "High layout count: 11",
+          "High event listener count: 664"
+        ],
+        "success": true
+      },
+      "ux": {
+        "elements": {
+          "hasScrollProgress": false,
+          "hasSkipLinks": false,
+          "hasLargeClickTargets": false,
+          "hasMotionClasses": false,
+          "hasAriaLabels": false,
+          "hasFocusIndicators": false,
+          "hasInteractiveCanvas": false
+        },
+        "warnings": [
+          "No scroll progress indicator found",
+          "No skip links found",
+          "Touch targets may be too small (< 44px)",
+          "No motion animation classes detected",
+          "No ARIA labels found"
+        ],
+        "success": true
+      },
+      "screenshots": {
+        "desktop": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/news-desktop-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/news-desktop-full.png"
+        },
+        "tablet": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/news-tablet-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/news-tablet-full.png"
+        },
+        "mobile": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/news-mobile-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/news-mobile-full.png"
+        }
+      },
+      "success": true
+    },
+    "Contact": {
+      "accessibility": {
+        "errors": [],
+        "warnings": [
+          "No skip links found for keyboard navigation"
+        ],
+        "success": true
+      },
+      "performance": {
+        "metrics": {
+          "JSHeapUsedSize": 7,
+          "JSHeapTotalSize": 11,
+          "LayoutCount": 11,
+          "RecalcStyleCount": 108,
+          "JSEventListeners": 616,
+          "Nodes": 400
+        },
+        "warnings": [
+          "High layout count: 11",
+          "High event listener count: 616"
+        ],
+        "success": true
+      },
+      "ux": {
+        "elements": {
+          "hasScrollProgress": false,
+          "hasSkipLinks": false,
+          "hasLargeClickTargets": false,
+          "hasMotionClasses": false,
+          "hasAriaLabels": false,
+          "hasFocusIndicators": false,
+          "hasInteractiveCanvas": false
+        },
+        "warnings": [
+          "No scroll progress indicator found",
+          "No skip links found",
+          "Touch targets may be too small (< 44px)",
+          "No motion animation classes detected",
+          "No ARIA labels found"
+        ],
+        "success": true
+      },
+      "screenshots": {
+        "desktop": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/contact-desktop-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/contact-desktop-full.png"
+        },
+        "tablet": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/contact-tablet-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/contact-tablet-full.png"
+        },
+        "mobile": {
+          "viewport": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/contact-mobile-viewport.png",
+          "full": "/Users/adamwittsell/CODE/vibeing/paritee-site/scripts/puppeteer/synthesis-b-screenshots/contact-mobile-full.png"
+        }
+      },
+      "success": true
+    }
+  },
+  "overall": {
+    "errors": [],
+    "warnings": [],
+    "summary": {
+      "totalPages": 9,
+      "successfulPages": 9,
+      "successRate": "100%",
+      "avgMemoryUsage": 6.444444444444445,
+      "totalWarnings": 72,
+      "totalErrors": 0
+    }
+  }
+}

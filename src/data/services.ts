@@ -7,39 +7,33 @@ export interface Service {
 
 export const services: Service[] = [
   {
-    id: 'strategy',
-    name: 'Strategic Consulting',
-    blurb: 'Comprehensive business strategy and market positioning',
-    icon: 'Target'
-  },
-  {
-    id: 'creative',
-    name: 'Creative Services',
-    blurb: 'Brand design, campaigns, and creative execution',
-    icon: 'Palette'
-  },
-  {
-    id: 'digital',
-    name: 'Digital Marketing',
-    blurb: 'Performance marketing and digital transformation',
-    icon: 'Smartphone'
-  },
-  {
-    id: 'media',
-    name: 'Media Planning',
-    blurb: 'Integrated media strategy and buying',
-    icon: 'Radio'
-  },
-  {
-    id: 'pr',
-    name: 'Public Relations',
-    blurb: 'Strategic communications and reputation management',
+    id: 'strategic-communications',
+    name: 'Strategic Communications',
+    blurb: 'Crafting narratives that resonate with your audiences and drive meaningful engagement.',
     icon: 'Megaphone'
   },
   {
-    id: 'data',
-    name: 'Data & Analytics',
-    blurb: 'Insights-driven marketing and measurement',
-    icon: 'BarChart'
+    id: 'public-affairs',
+    name: 'Public Affairs',
+    blurb: 'Navigating complex policy landscapes and building relationships that matter.',
+    icon: 'Building'
+  },
+  {
+    id: 'branding-design',
+    name: 'Branding & Design',
+    blurb: 'Creating visual identities and experiences that capture your essence.',
+    icon: 'Palette'
+  },
+  {
+    id: 'digital-content',
+    name: 'Digital & Content Marketing',
+    blurb: 'Delivering digital-first strategies that connect and convert.',
+    icon: 'Globe'
+  },
+  {
+    id: 'crisis-management',
+    name: 'Crisis Management',
+    blurb: 'Protecting reputation and managing communications when it matters most.',
+    icon: 'Shield'
   }
 ]

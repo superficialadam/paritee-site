@@ -1,0 +1,43 @@
+.base-theme {
+  --bg: #ffffff;
+  --fg: #1a1a1a;
+  --muted: #6b7280;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --border: #e5e7eb;
+  --surface: #f9fafb;
+  --surface-hover: #f3f4f6;
+}
+
+/* Animated heading styles - using best practices */
+.animated-heading {
+  white-space: nowrap !important;
+  overflow: visible;
+  opacity: 0;
+  letter-spacing: 1rem;
+  transform: translateY(30px);
+  display: inline-block;
+  will-change: opacity, letter-spacing, transform;
+}
+
+.animated-heading.hero-heading {
+  white-space: nowrap !important;
+  overflow: visible;
+}
+
+/* Remove all CSS scroll behaviors - let GSAP handle everything */
+html {
+  scroll-behavior: auto;
+}
+
+/* Sections for fullpage layout - fixed height prevents cropping */
+section {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem 0;
+  box-sizing: border-box;
+  overflow: visible;
+}
