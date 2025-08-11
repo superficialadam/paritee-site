@@ -107,10 +107,10 @@ export default function HeroV2() {
           className="space-y-6"
         >
           <h1 className="font-heading font-bold tracking-tight leading-[0.85] text-white">
-            <div className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl mb-4">
+            <div className="text-5xl md:text-6xl lg:text-6xl xl:text-7xl mb-4">
               No Compromise.
             </div>
-            <div className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-slate-300">
+            <div className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl text-slate-300">
               Just Better.
             </div>
           </h1>
@@ -121,12 +121,8 @@ export default function HeroV2() {
           ref={subtextRef}
           className="max-w-5xl mx-auto space-y-8 opacity-0 transform translate-y-8"
         >
-          <p className="text-2xl md:text-3xl lg:text-4xl font-light leading-[1.2] text-slate-200">
-            Where strategy meets execution. Where creativity drives results.
-          </p>
-          <p className="text-lg md:text-xl lg:text-2xl leading-relaxed text-slate-400 max-w-4xl mx-auto font-light">
-            In a world of false choices and compromised solutions, we stand apart. 
-            Our network delivers the power of unified expertise without the politics of traditional agencies.
+          <p className="text-lg md:text-xl lg:text-2xl leading-relaxed text-slate-300 max-w-4xl mx-auto font-light">
+            Where strategy meets execution. Where creativity drives results. In a world of false choices and compromised solutions, we stand apart. Our network delivers the power of unified expertise without the politics of traditional agencies.
           </p>
         </div>
 
@@ -135,19 +131,22 @@ export default function HeroV2() {
           ref={ctaRef}
           className="opacity-0 transform translate-y-8"
         >
-          <CtaButtons
-            primary={{ 
-              text: 'Start Your Project', 
-              href: '#contact', 
-              icon: <ArrowRight size={20} /> 
-            }}
-            secondary={{ 
-              text: 'Watch Our Story', 
-              href: '#', 
-              icon: <Play size={20} /> 
-            }}
-            className="mb-16"
-          />
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <a
+              href="#contact"
+              className="inline-flex items-center justify-center px-4 py-2 border border-gray-400 text-white rounded-full hover:bg-white hover:text-black transition-colors font-medium text-sm"
+            >
+              Start Your Project
+              <ArrowRight size={16} className="ml-2" />
+            </a>
+            <a
+              href="#"
+              className="inline-flex items-center justify-center px-4 py-2 border border-gray-400 text-white rounded-full hover:bg-white hover:text-black transition-colors font-medium text-sm"
+            >
+              Watch Our Story
+              <Play size={16} className="ml-2" />
+            </a>
+          </div>
         </div>
 
         {/* Stats */}
