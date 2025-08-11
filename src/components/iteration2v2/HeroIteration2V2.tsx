@@ -6,15 +6,20 @@ import Image from 'next/image'
 
 // Animation timing configuration
 const ANIMATION_CONFIG = {
-  squareFlicker: { duration: 1.0, flickerCount: 6 },
+  squareFlicker: { duration: 3.0, flickerCount: 18 }, // 3x longer
   squareScaleUp: { duration: 0.4, ease: 'power2.out' },
   squareScaleHorizontal: { duration: 0.3, ease: 'power2.inOut' },
   squareFadeOut: { duration: 0.3, ease: 'power2.out' },
   logoHold: { duration: 0.8 },
-  logoFadeOut: { duration: 0.4, ease: 'power2.out' },
-  headlineFadeIn: { duration: 0.6, ease: 'power2.out' },
-  contentFadeIn: { duration: 0.8, ease: 'power2.out' },
-  contentStagger: 0.2
+  logoReverse: {
+    rectangleFadeUp: { duration: 0.15, ease: 'power2.out' }, // 2x faster than horizontal scale (0.3/2)
+    shrinkToSquare: { duration: 0.2, ease: 'power2.inOut' }, // 2x faster than scale up (0.4/2) 
+    shrinkSmall: { duration: 0.1, ease: 'power2.in' },
+    flicker: { duration: 0.75, flickerCount: 5 } // Half as long (1.5/2)
+  },
+  headlineTypewriter: { duration: 0.6, letterStagger: 0.04 },
+  contentDelay: 1.0, // Longer wait
+  contentFadeIn: { duration: 0.8, ease: 'power2.out' }
 }
 
 export default function HeroIteration2V2() {
@@ -23,6 +28,10 @@ export default function HeroIteration2V2() {
   const headlineRef = useRef<HTMLHeadingElement>(null)
   const subheadingRef = useRef<HTMLDivElement>(null)
   const buttonsRef = useRef<HTMLDivElement>(null)
+
+  // Split headline text into individual letters for animation (preserve line breaks)
+  const headlineLines = ['No Compromise', 'You deserve better']
+  const createShuffledIndices = (length: number) => [...Array(length)].map((_, i) => i).sort(() => Math.random() - 0.5)
   useEffect(() => {
     const tl = gsap.timeline()
 
@@ -34,9 +43,11 @@ export default function HeroIteration2V2() {
       transformOrigin: 'center center'
     })
     gsap.set(logoRef.current, { opacity: 0 })
-    gsap.set([headlineRef.current, subheadingRef.current, buttonsRef.current], { 
+    gsap.set([subheadingRef.current, buttonsRef.current], { 
       opacity: 0
     })
+    // Hide all headline letters initially
+    gsap.set(headlineRef.current?.querySelectorAll('.letter'), { opacity: 0 })
 
     // Animation timeline with flicker then scale
     tl
@@ -75,28 +86,78 @@ export default function HeroIteration2V2() {
       }, '<') // Start at same time as square fade
       // 4. Logo holds for a moment
       .to({}, { duration: ANIMATION_CONFIG.logoHold.duration })
-      // 5. Logo fades out as headline fades in
-      .to(logoRef.current, {
-        opacity: 0,
-        duration: ANIMATION_CONFIG.logoFadeOut.duration,
-        ease: ANIMATION_CONFIG.logoFadeOut.ease
+      // 5. Reverse animation: rectangle covers logo, shrinks, flickers out
+      // First, make rectangle opaque to cover logo
+      .to(whiteSquareRef.current, {
+        opacity: 1,
+        duration: ANIMATION_CONFIG.logoReverse.rectangleFadeUp.duration,
+        ease: ANIMATION_CONFIG.logoReverse.rectangleFadeUp.ease
       })
-      .to(headlineRef.current, {
-        opacity: 1,
-        duration: ANIMATION_CONFIG.headlineFadeIn.duration,
-        ease: ANIMATION_CONFIG.headlineFadeIn.ease
-      }, '<') // Start at same time as logo fade out
-      // 6. Subheading and buttons fade in with stagger
-      .to(subheadingRef.current, {
+      .set(logoRef.current, { opacity: 0 }) // Hide logo behind rectangle
+      // Shrink horizontally back to square
+      .to(whiteSquareRef.current, {
+        width: 104,
+        duration: ANIMATION_CONFIG.logoReverse.shrinkToSquare.duration,
+        ease: ANIMATION_CONFIG.logoReverse.shrinkToSquare.ease
+      })
+      // Shrink to small square
+      .to(whiteSquareRef.current, {
+        width: 8,
+        height: 8,
+        duration: ANIMATION_CONFIG.logoReverse.shrinkSmall.duration,
+        ease: ANIMATION_CONFIG.logoReverse.shrinkSmall.ease
+      })
+      // Headlines start when rectangle becomes square (parallel timing)
+      .add(() => {
+        const line1Letters = headlineRef.current?.querySelectorAll('.line1 .letter')
+        const line2Letters = headlineRef.current?.querySelectorAll('.line2 .letter')
+        
+        if (line1Letters) {
+          const shuffled1 = createShuffledIndices(line1Letters.length)
+          shuffled1.forEach((index, i) => {
+            gsap.delayedCall(i * ANIMATION_CONFIG.headlineTypewriter.letterStagger, () => {
+              // Binary flicker pattern: on/off/on/on/on/off/off/on
+              const flickerPattern = [1, 0, 1, 1, 1, 0, 0, 1]
+              const flickerTl = gsap.timeline()
+              flickerPattern.forEach((opacity, j) => {
+                flickerTl.set(line1Letters[index], { opacity }, j * 0.02)
+              })
+              flickerTl.set(line1Letters[index], { opacity: 1 }) // Final state
+            })
+          })
+        }
+        
+        if (line2Letters) {
+          const shuffled2 = createShuffledIndices(line2Letters.length)
+          shuffled2.forEach((index, i) => {
+            gsap.delayedCall((i + 3) * ANIMATION_CONFIG.headlineTypewriter.letterStagger, () => {
+              // Binary flicker pattern: on/off/on/on/on/off/off/on
+              const flickerPattern = [1, 0, 1, 1, 1, 0, 0, 1]
+              const flickerTl = gsap.timeline()
+              flickerPattern.forEach((opacity, j) => {
+                flickerTl.set(line2Letters[index], { opacity }, j * 0.02)
+              })
+              flickerTl.set(line2Letters[index], { opacity: 1 }) // Final state
+            })
+          })
+        }
+      }) // Start after rectangle animation completes
+      // Continue with flicker out after headlines start
+      .to(whiteSquareRef.current, {
+        opacity: 0,
+        duration: 0.075, // Quick flicker intervals  
+        repeat: ANIMATION_CONFIG.logoReverse.flicker.flickerCount - 1,
+        yoyo: true,
+        ease: 'none'
+      }, '-=1.35') // Start flicker right after rectangle becomes square
+      .set(whiteSquareRef.current, { opacity: 0 }) // Final state
+      // 7. Wait longer then fade in subheading and buttons
+      .to({}, { duration: ANIMATION_CONFIG.contentDelay })
+      .to([subheadingRef.current, buttonsRef.current], {
         opacity: 1,
         duration: ANIMATION_CONFIG.contentFadeIn.duration,
         ease: ANIMATION_CONFIG.contentFadeIn.ease
-      }, `+=${ANIMATION_CONFIG.contentStagger}`)
-      .to(buttonsRef.current, {
-        opacity: 1,
-        duration: ANIMATION_CONFIG.contentFadeIn.duration,
-        ease: ANIMATION_CONFIG.contentFadeIn.ease
-      }, `+=${ANIMATION_CONFIG.contentStagger}`)
+      })
 
     return () => {
       tl.kill()
@@ -134,13 +195,21 @@ export default function HeroIteration2V2() {
             </div>
           </div>
 
-          {/* Main Headline */}
+          {/* Main Headline - Split into letters for flicker effect */}
           <h1 
             ref={headlineRef}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8"
           >
-            No Compromise<br />
-            You deserve better
+            <div className="line1">
+              {headlineLines[0].split('').map((char, i) => (
+                <span key={i} className="letter">{char}</span>
+              ))}
+            </div>
+            <div className="line2">
+              {headlineLines[1].split('').map((char, i) => (
+                <span key={i} className="letter">{char}</span>
+              ))}
+            </div>
           </h1>
           
           {/* Subheadline */}
