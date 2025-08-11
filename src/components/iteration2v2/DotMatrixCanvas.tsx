@@ -17,7 +17,8 @@ class DotMatrixDisplay {
     this.p = p5Instance
     this.dotSpacing = spacing
     this.baseDotSize = dotSize
-    this.darkBlue = [8, 20, 40] // Default dark blue
+    // Background is #0E2756 (14, 39, 86) - make dots slightly lighter
+    this.darkBlue = [20, 47, 94] // Slightly lighter than bg, same hue
     this.white = [255, 255, 255] // White
     
     this.updateDimensions()
@@ -141,21 +142,15 @@ class DotMatrixDisplay {
         const y = row * this.dotSpacing + this.dotSpacing / 2
         const luminance = this.luminanceGrid[col][row]
         
-        // Apply base opacity to non-animated dots (15% for subtle background)
-        // But allow full brightness for animated dots
-        const baseOpacity = luminance > 0.01 ? 255 : 38 // 38/255 = ~15%
-        
         // Interpolate color between dark blue and white
+        // When luminance = 0: dark blue (slightly lighter than bg)
+        // When luminance = 1: pure white
         const r = this.p.lerp(this.darkBlue[0], this.white[0], luminance)
         const g = this.p.lerp(this.darkBlue[1], this.white[1], luminance)
         const b = this.p.lerp(this.darkBlue[2], this.white[2], luminance)
         
-        // Use alpha channel for base dots, full opacity for animated ones
-        if (luminance > 0.01) {
-          this.p.fill(r, g, b, 255) // Full opacity for animated dots
-        } else {
-          this.p.fill(r, g, b, baseOpacity) // Low opacity for background
-        }
+        // All dots render at full opacity now that the base color is subtle
+        this.p.fill(r, g, b, 255)
         
         // Scale size based on luminance (0 = base size, 1 = 2.5x base size)
         const size = this.baseDotSize + (luminance * this.baseDotSize * 1.5)
@@ -202,16 +197,125 @@ export default function DotMatrixCanvas() {
         }> = []
         let shockwaveActive = false
         let shockwaveStartTime = 0
+        let currentSection = 'default'
         const SHOCKWAVE_DURATION = 3000 // ms - longer for particle system
         const RECTANGLE_WIDTH = 240 // Match the logo rectangle width in pixels
         const RECTANGLE_HEIGHT = 104 // Match the logo rectangle height in pixels
+        
+        // Office locations (normalized coordinates)
+        const officeLocations = [
+          { name: 'San Francisco', x: 0.12, y: 0.4 },
+          { name: 'Minneapolis', x: 0.21, y: 0.35 },
+          { name: 'New York', x: 0.35, y: 0.42 },
+          { name: 'Dublin', x: 0.48, y: 0.31 },
+          { name: 'London', x: 0.495, y: 0.325 },
+          { name: 'Oslo', x: 0.51, y: 0.22 },
+          { name: 'Copenhagen', x: 0.515, y: 0.28 },
+          { name: 'Stockholm', x: 0.535, y: 0.23 },
+          { name: 'Berlin', x: 0.52, y: 0.32 },
+          { name: 'Frankfurt', x: 0.51, y: 0.34 },
+          { name: 'Munich', x: 0.515, y: 0.36 },
+          { name: 'Dubai', x: 0.62, y: 0.51 },
+        ]
+        
+        // Simplified static continent outlines (normalized coordinates)
+        const continentOutlines = [
+          // North America - West Coast
+          { x: 0.08, y: 0.25 }, { x: 0.09, y: 0.28 }, { x: 0.10, y: 0.32 }, { x: 0.11, y: 0.35 },
+          { x: 0.12, y: 0.38 }, { x: 0.13, y: 0.42 }, { x: 0.14, y: 0.45 },
+          
+          // North America - Main Body
+          { x: 0.15, y: 0.22 }, { x: 0.18, y: 0.20 }, { x: 0.22, y: 0.18 }, { x: 0.26, y: 0.17 },
+          { x: 0.30, y: 0.19 }, { x: 0.33, y: 0.22 }, { x: 0.35, y: 0.25 }, { x: 0.32, y: 0.28 },
+          { x: 0.29, y: 0.32 }, { x: 0.26, y: 0.35 }, { x: 0.23, y: 0.38 }, { x: 0.20, y: 0.42 },
+          { x: 0.17, y: 0.45 }, { x: 0.15, y: 0.48 },
+          
+          // North America - East Coast  
+          { x: 0.28, y: 0.15 }, { x: 0.32, y: 0.16 }, { x: 0.35, y: 0.18 }, { x: 0.37, y: 0.22 },
+          { x: 0.38, y: 0.26 }, { x: 0.36, y: 0.30 }, { x: 0.35, y: 0.34 }, { x: 0.33, y: 0.38 },
+          
+          // South America
+          { x: 0.28, y: 0.50 }, { x: 0.30, y: 0.54 }, { x: 0.32, y: 0.58 }, { x: 0.33, y: 0.62 },
+          { x: 0.34, y: 0.66 }, { x: 0.33, y: 0.70 }, { x: 0.31, y: 0.74 }, { x: 0.29, y: 0.72 },
+          { x: 0.27, y: 0.68 }, { x: 0.26, y: 0.64 }, { x: 0.25, y: 0.60 }, { x: 0.26, y: 0.56 },
+          
+          // Europe  
+          { x: 0.47, y: 0.22 }, { x: 0.49, y: 0.20 }, { x: 0.52, y: 0.19 }, { x: 0.55, y: 0.21 },
+          { x: 0.54, y: 0.25 }, { x: 0.52, y: 0.28 }, { x: 0.50, y: 0.32 }, { x: 0.48, y: 0.35 },
+          { x: 0.47, y: 0.32 }, { x: 0.46, y: 0.28 }, { x: 0.46, y: 0.25 },
+          
+          // Africa
+          { x: 0.50, y: 0.38 }, { x: 0.52, y: 0.42 }, { x: 0.54, y: 0.46 }, { x: 0.55, y: 0.50 },
+          { x: 0.56, y: 0.54 }, { x: 0.55, y: 0.58 }, { x: 0.54, y: 0.62 }, { x: 0.52, y: 0.66 },
+          { x: 0.50, y: 0.68 }, { x: 0.48, y: 0.66 }, { x: 0.47, y: 0.62 }, { x: 0.46, y: 0.58 },
+          { x: 0.47, y: 0.54 }, { x: 0.48, y: 0.50 }, { x: 0.49, y: 0.46 }, { x: 0.49, y: 0.42 },
+          
+          // Asia - Western Part
+          { x: 0.56, y: 0.18 }, { x: 0.60, y: 0.16 }, { x: 0.65, y: 0.18 }, { x: 0.70, y: 0.20 },
+          { x: 0.75, y: 0.22 }, { x: 0.78, y: 0.26 }, { x: 0.76, y: 0.30 }, { x: 0.73, y: 0.34 },
+          { x: 0.70, y: 0.38 }, { x: 0.67, y: 0.42 }, { x: 0.64, y: 0.45 }, { x: 0.61, y: 0.48 },
+          { x: 0.58, y: 0.45 }, { x: 0.56, y: 0.41 }, { x: 0.55, y: 0.37 }, { x: 0.54, y: 0.33 },
+          { x: 0.55, y: 0.29 }, { x: 0.56, y: 0.25 }, { x: 0.57, y: 0.21 },
+          
+          // Asia - Eastern Part (India, Southeast Asia)  
+          { x: 0.68, y: 0.48 }, { x: 0.70, y: 0.52 }, { x: 0.72, y: 0.56 }, { x: 0.75, y: 0.54 },
+          { x: 0.78, y: 0.52 }, { x: 0.80, y: 0.48 }, { x: 0.82, y: 0.44 }, { x: 0.85, y: 0.40 },
+          
+          // Australia
+          { x: 0.78, y: 0.68 }, { x: 0.82, y: 0.67 }, { x: 0.86, y: 0.69 }, { x: 0.88, y: 0.72 },
+          { x: 0.86, y: 0.75 }, { x: 0.82, y: 0.76 }, { x: 0.78, y: 0.74 }, { x: 0.76, y: 0.71 },
+        ]
+
+        // Simple section detection based on scroll position
+        function detectCurrentSection() {
+          const sections = ['#home', '#mission', '#news', '#services', '#sectors', '#geographies', '#agencies', '#cases', '#team', '#contact']
+          const viewportCenter = window.innerHeight / 2
+          
+          for (const sectionId of sections) {
+            const section = document.querySelector(sectionId) as HTMLElement
+            if (section) {
+              const rect = section.getBoundingClientRect()
+              if (rect.top <= viewportCenter && rect.bottom >= viewportCenter) {
+                return sectionId.substring(1) // Remove the #
+              }
+            }
+          }
+          return 'default'
+        }
+        
+        // Get SVG bounds for coordinate mapping
+        function getSVGBounds() {
+          const geographiesSection = document.querySelector('#geographies')
+          if (!geographiesSection) return null
+          
+          const svgImg = geographiesSection.querySelector('img') as HTMLImageElement
+          if (!svgImg) return null
+          
+          const imgRect = svgImg.getBoundingClientRect()
+          const canvasRect = p.canvas.getBoundingClientRect()
+          
+          // Calculate relative position of SVG within the canvas coordinate system
+          const relativeX = imgRect.left - canvasRect.left
+          const relativeY = imgRect.top - canvasRect.top
+          
+          // The image uses object-contain, so calculate actual rendered size
+          const imgAspectRatio = imgRect.width / imgRect.height // Use displayed dimensions for SVG
+          const containerAspectRatio = imgRect.width / imgRect.height
+          
+          return {
+            x: relativeX,
+            y: relativeY,
+            width: imgRect.width,
+            height: imgRect.height
+          }
+        }
 
         p.setup = () => {
           const canvas = p.createCanvas(window.innerWidth, window.innerHeight)
           canvas.parent(canvasRef.current!)
           
           display = new DotMatrixDisplay(p)
-          
+
           // Listen for logo animation trigger
           window.addEventListener('logoRectangleFullWidth', () => {
             shockwaveActive = true
@@ -268,17 +372,49 @@ export default function DotMatrixCanvas() {
           // Clear display each frame
           display.clearDisplay()
           
-          // Get current scroll position for subtle background animation
+          // Get current scroll position and detect section
           scrollY = window.pageYOffset || 0
           const scrollDelta = scrollY - lastScrollY
           
-          // Add subtle scroll-based random dots (10% of original intensity)
-          if (Math.abs(scrollDelta) > 0.1) {
-            for (let i = 0; i < 5; i++) { // Much fewer random dots
-              const col = Math.floor(Math.random() * display.width)
-              const row = Math.floor(Math.random() * display.height)
-              const noise = (Math.sin(scrollY * 0.01 + col * 0.1 + row * 0.1) + 1) / 2
-              display.setPixel(col, row, noise * 0.15) // Much more subtle
+          // Always detect current section for smooth coordinate updates
+          currentSection = detectCurrentSection()
+          
+          // Section-specific rendering
+          if (currentSection === 'geographies') {
+            // World map mode: show continent outlines and office locations
+            display.clearDisplay(0) // Clear background
+            
+            // Get SVG bounds for coordinate mapping
+            const svgBounds = getSVGBounds()
+            
+            if (svgBounds) {
+              // Draw continent outlines with subtle luminance
+              for (const continent of continentOutlines) {
+                const screenX = svgBounds.x + (continent.x * svgBounds.width)
+                const screenY = svgBounds.y + (continent.y * svgBounds.height)
+                const col = Math.floor(screenX / display.dotSpacing)
+                const row = Math.floor(screenY / display.dotSpacing)
+                display.setPixel(col, row, 0.08) // Very subtle continent outline
+              }
+              
+              // Draw office locations as single bright dots
+              for (const office of officeLocations) {
+                const screenX = svgBounds.x + (office.x * svgBounds.width)
+                const screenY = svgBounds.y + (office.y * svgBounds.height)
+                const col = Math.floor(screenX / display.dotSpacing)
+                const row = Math.floor(screenY / display.dotSpacing)
+                display.setPixel(col, row, 1.0) // Full brightness single dot
+              }
+            }
+          } else {
+            // Default mode: subtle scroll-based animation
+            if (Math.abs(scrollDelta) > 0.1) {
+              for (let i = 0; i < 5; i++) { // Much fewer random dots
+                const col = Math.floor(Math.random() * display.width)
+                const row = Math.floor(Math.random() * display.height)
+                const noise = (Math.sin(scrollY * 0.01 + col * 0.1 + row * 0.1) + 1) / 2
+                display.setPixel(col, row, noise * 0.15) // Much more subtle
+              }
             }
           }
           
